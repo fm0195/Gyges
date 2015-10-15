@@ -68,7 +68,7 @@ tableroInvalido([(_,Fila,Columna) | RestoFichas]) :- member((1,Fila,Columna),Res
 tableroInvalido([_| RestoFichas]) :- tableroInvalido(RestoFichas).
 %-----------------------------------------------------------------------------
 movimiento(Tablero, Turno, TurnoOponente, NuevoTablero, Solucion):-movimientoGanador(Tablero, Tablero, Turno, NuevoTablero,Solucion), !.
-movimiento(Tablero, Turno, TurnoOponente, NuevoTablero, Solucion):-movimientoNormal(Tablero, Tablero, Turno, TurnoOponente, NuevoTablero,Solucion), !.
+movimiento(Tablero, Turno, TurnoOponente, NuevoTablero, Solucion):-findall([Res|NuevoTablero],movimientoNormal(Tablero, Tablero, Turno, TurnoOponente, NuevoTablero,Res),Lista), randomElem(Lista, [Solucion|NuevoTablero]),!.
 
 %MOVIMIENTO GANADOR: Realiza un movimiento ganador si existiera
 movimientoGanador([],_,_,_,_) :- !,fail.
@@ -84,22 +84,31 @@ movimientoNormal([],_,_,_,_,_) :- !,fail.
 movimientoNormal([(NumFicha,Fila,Columna) | RestoFichas], Tablero, Turno, TurnoOponente, NuevoTablero, Solucion) :- 
 										Turno=1,	
 										filaMover(Turno, Tablero, NumFila), 
-										Fila=NumFila, mover(Turno, (NumFicha,Fila,Columna), Tablero, NuevoTablero), last(NuevoTablero,NuevaFicha), 
+										Fila=NumFila, mover(Turno, (NumFicha,Fila,Columna), Tablero, NuevoTablero), 
+										last(NuevoTablero,NuevaFicha), 
 										not(movimientoGanador(NuevoTablero,NuevoTablero,TurnoOponente,_,_)),
 										NuevaFicha=(_,FilaNueva,_), Fila >= FilaNueva,
-										Solucion = [(NumFicha,Fila,Columna),NuevaFicha], !.
+										Solucion = [(NumFicha,Fila,Columna),NuevaFicha].
 movimientoNormal([(NumFicha,Fila,Columna) | RestoFichas], Tablero, Turno, TurnoOponente, NuevoTablero, Solucion) :- 
 										Turno=2,	
 										filaMover(Turno, Tablero, NumFila), 
-										Fila=NumFila, mover(Turno, (NumFicha,Fila,Columna), Tablero, NuevoTablero), last(NuevoTablero,NuevaFicha), 
+										Fila=NumFila, mover(Turno, (NumFicha,Fila,Columna), Tablero, NuevoTablero), 
+										last(NuevoTablero,NuevaFicha), 
 										not(movimientoGanador(NuevoTablero,NuevoTablero,TurnoOponente,_,_)),
 										NuevaFicha=(_,FilaNueva,_), Fila =< FilaNueva,
-										Solucion = [(NumFicha,Fila,Columna),NuevaFicha], !.
+										Solucion = [(NumFicha,Fila,Columna),NuevaFicha].
 movimientoNormal([_| RestoFichas], Tablero, Turno,TurnoOponente, NuevoTablero, Solucion) :- 
 										movimientoNormal(RestoFichas,Tablero,Turno,TurnoOponente,NuevoTablero,Solucion).
 
 
 ganador(Ficha, Tablero, Turno, NuevoTablero) :- Turno = 1, mover(Turno, Ficha, Tablero, NuevoTablero), last(NuevoTablero,Sol), Sol=(_,Fila,_), Fila = -1.
 ganador(Ficha, Tablero, Turno, NuevoTablero) :- Turno = 2, mover(Turno, Ficha, Tablero, NuevoTablero), last(NuevoTablero,Sol), Sol=(_,Fila,_), Fila = 5.
+
+%Escoge un elemento al azar de una lista.
+randomElem([], []).
+randomElem(List, Elem) :-
+        length(List, Length),
+        random(0, Length, Index),
+        nth0(Index, List, Elem).
 %[(2,0,0),(3,0,1),(2,0,2),(1,0,3),(1,0,4),(3,0,5) , (1,4,0),(3,4,1),(2,4,2),(2,4,3),(3,4,4),(1,4,5)]
 %mover(2,(1,0,3),[ (1, 0, 3), (1, 0, 4), (3, 0, 5), (1, 3, 0)],X).
