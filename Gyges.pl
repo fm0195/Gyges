@@ -1,4 +1,4 @@
-jugar(Turno, Tablero, NuevoTablero, Movimiento) :- Turno=1, movimiento(Tablero,1,2,NuevoTablero,Movimiento). 
+jugar(Turno, Tablero, NuevoTablero, Movimiento) :- guitracer,Turno=1, movimiento(Tablero,1,2,NuevoTablero,Movimiento). 
 jugar(Turno, Tablero, NuevoTablero, Movimiento) :- Turno=2, movimiento(Tablero,2,1,NuevoTablero,Movimiento).
 
 %------------------------------------------------------------------------------
@@ -81,7 +81,7 @@ movimientoGanador([_| RestoFichas], Tablero, Turno, NuevoTablero, Solucion) :-
 										movimientoGanador(RestoFichas, Tablero,Turno,NuevoTablero,Solucion).
 %MOVIMIENTO NORMAL: Realiza un movimiento normal si un ganador no existiera
 movimientoNormal([],_,_,_,_,_) :- !,fail.
-movimientoNormal([(NumFicha,Fila,Columna) | RestoFichas], Tablero, Turno, TurnoOponente, NuevoTablero, Solucion) :- 
+movimientoNormal([(NumFicha,Fila,Columna) | RestoFichas], trace,Tablero, Turno, TurnoOponente, NuevoTablero, Solucion) :- 
 										Turno=1,	
 										filaMover(Turno, Tablero, NumFila), 
 										Fila=NumFila, mover(Turno, (NumFicha,Fila,Columna), Tablero, NuevoTablero), 
