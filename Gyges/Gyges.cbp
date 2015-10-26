@@ -49,6 +49,7 @@
 			<Add library="..\..\..\..\..\..\..\Program Files (x86)\CodeBlocks\GTK\lib\gdk-win32-2.0.lib" />
 			<Add directory="C:/Program Files (x86)/CodeBlocks/GTK/lib" />
 		</Linker>
+		<Unit filename="const.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1445798062 source:c:\users\fm010\onedrive\tec\github\gyges\gyges\main.c
+1445820859 source:c:\users\fm010\onedrive\tec\github\gyges\gyges\main.c
 	<stdlib.h>
 	<gtk/gtk.h>
 	<gdk/gdk.h>
